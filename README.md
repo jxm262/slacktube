@@ -1,2 +1,2 @@
-# slube
+# Slacktovision
 Slack Youtube Playlist integration
