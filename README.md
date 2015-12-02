@@ -1,2 +1,2 @@
-# Slacktovision
+# Slacktube
 Slack Youtube Playlist integration
