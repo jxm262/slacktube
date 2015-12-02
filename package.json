@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/jxm262/slacktube/issues"
   },
-  "homepage": "https://github.com/jxm262/slacktube#readme"
+  "homepage": "https://github.com/jxm262/slacktube#readme",
+  "dependencies": {
+    "googleapis": "^2.1.6"
+  }
 }
