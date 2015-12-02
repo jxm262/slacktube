@@ -1,0 +1,23 @@
+{
+  "name": "slacktube",
+  "version": "0.0.1",
+  "description": "Slack Youtube Playlist integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxm262/slacktube.git"
+  },
+  "keywords": [
+    "Slack",
+    "Youtube"
+  ],
+  "author": "Justin Maat <jxm262@gmail.com> (http://jmaat.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jxm262/slacktube/issues"
+  },
+  "homepage": "https://github.com/jxm262/slacktube#readme"
+}
