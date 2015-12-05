@@ -29,8 +29,6 @@ server.connection({
 /*****************************************************************************
  * todo: move this code
  ****************************************************************************/
-var readline = require('readline');
-
 var google = require('googleapis');
 var secrets = require('./config/secrets');
 
@@ -60,8 +58,8 @@ server.route({
         var code = request.query.code;
         oauth2Client.getToken(code, function (err, tokens) {
             oauth2Client.setCredentials(tokens);
-
-            return reply('logged in');
+            console.log('tokens', tokens);
+            return reply('logged in with tokens - ' + tokens);
         });
     }
 });
@@ -91,9 +89,21 @@ server.route({
     method: 'GET',
     path: '/playlist/{playlistId}/items',
     handler: function (request, reply) {
-        console.log('called with params', request.params.playlistId);
+
+        console.log('here');
+        var tokens = {
+            access_token: 'ya29.QQIqoImFrdyJFEPgkbHd2f4nEf09f5v3mOzyaaBC3Hsks4XP1HZK2c0losvwNd26zhm8',
+            token_type: 'Bearer',
+            refresh_token: '1/7jn47jSYpMotH8_VGGGfBZHn8Lr-KBtJjnKvdAjhWCo',
+            expiry_date: 1449347914387
+        };
+
+        var oauth2Client2;
+        oauth2Client2 = new OAuth2Client(secrets.CLIENT_ID, secrets.CLIENT_SECRET, secrets.REDIRECT_URL);
+        oauth2Client2.setCredentials(tokens);
+
         var params = {
-            auth: oauth2Client,
+            auth: oauth2Client2,
             part: 'snippet',
             playlistId: request.params.playlistId
         };
@@ -103,10 +113,16 @@ server.route({
                 return reply(err);
             }
 
+            //Note - to watch video , redirect to youtube.com/watch?v=<id>
+            //youtube.com/watch?v=-Fulz4ytZ54
             return reply(data);
         });
     }
 });
+
+
+
+
 /*****************************************************************************
  *****************************************************************************/
 
