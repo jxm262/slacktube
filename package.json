@@ -4,6 +4,7 @@
   "description": "Slack Youtube Playlist integration",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/jxm262/slacktube#readme",
   "dependencies": {
-    "googleapis": "^2.1.6"
+    "googleapis": "^2.1.6",
+    "hapi": "^11.1.2"
   }
 }
