@@ -53,15 +53,57 @@ server.route({
 });
 
 
-
 server.route({
     method: 'GET',
     path: '/oauthcallback',
     handler: function (request, reply) {
         var code = request.query.code;
-        oauth2Client.getToken(code, function(err, tokens) {
+        oauth2Client.getToken(code, function (err, tokens) {
             oauth2Client.setCredentials(tokens);
+
             return reply('logged in');
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/playlists',
+    handler: function (request, reply) {
+        var params = {
+            auth: oauth2Client,
+            part: 'snippet',
+            mine: true
+        };
+
+        youtube.playlists.list(params, function (err, data) {
+            if (err) {
+                return reply(err);
+            }
+
+            let items = {items: data.items};
+            return reply(items);
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/playlist/{playlistId}/items',
+    handler: function (request, reply) {
+        console.log('called with params', request.params.playlistId);
+        var params = {
+            auth: oauth2Client,
+            part: 'snippet',
+            playlistId: request.params.playlistId
+        };
+
+        youtube.playlistItems.list(params, function (err, data) {
+            if (err) {
+                return reply(err);
+            }
+
+            return reply(data);
         });
     }
 });
@@ -69,7 +111,7 @@ server.route({
  *****************************************************************************/
 
 
- server.start((err) => {
+server.start((err) => {
     if (err) {
         throw err;
     }
