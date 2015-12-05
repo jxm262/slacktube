@@ -4,7 +4,23 @@ var google = require('googleapis');
 var secrets = require('../config/secrets');
 
 var OAuth2Client = google.auth.OAuth2;
-var plus = google.plus('v1');
+var youtube = google.youtube('v3');
+
+
+//var key = require('./config/secrets');
+//var google = require('googleapis');
+//var OAuth2 = google.auth.OAuth2;
+//
+//var oauth2Client = new OAuth2(key.CLIENT_ID, key.CLIENT_SECRET, key.REDIRECT_URL);
+//
+//var scopes = [
+//    'https://www.googleapis.com/auth/youtube'
+//];
+//
+//var url = oauth2Client.generateAuthUrl({
+//    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
+//    scope: scopes
+//});
 
 var oauth2Client = new OAuth2Client(secrets.CLIENT_ID, secrets.CLIENT_SECRET, secrets.REDIRECT_URL);
 
@@ -17,7 +33,7 @@ function getAccessToken(oauth2Client, callback) {
     // generate consent page url
     var url = oauth2Client.generateAuthUrl({
         access_type: 'offline', // will return a refresh token
-        scope: 'https://www.googleapis.com/auth/plus.me' // can be a space-delimited string or an array of scopes
+        scope: 'https://www.googleapis.com/auth/youtube'
     });
 
     console.log('Visit the url: ', url);
@@ -35,11 +51,13 @@ function getAccessToken(oauth2Client, callback) {
 // retrieve an access token
 getAccessToken(oauth2Client, function() {
     // retrieve user profile
-    plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, profile) {
+    youtube.channels.list({auth: oauth2Client, part: 'snippet' }, function(err, data) {
         if (err) {
             console.log('An error occured', err);
             return;
         }
-        console.log(profile.displayName, ':', profile.tagline);
+        console.log('data...', data);
     });
 });
+
+
