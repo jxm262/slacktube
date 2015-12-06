@@ -41,8 +41,8 @@ server.route({
     handler: function (request, reply) {
         const code = request.query.code;
         oauth2Client.getToken(code, function (err, tokens) {
+            //TODO persist the user and the tokens
             oauth2Client.setCredentials(tokens);
-            console.log('tokens', tokens);
             return reply('logged in with tokens - ' + tokens);
         });
     }
@@ -71,7 +71,7 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/playlist/{playlistId}/items',
+    path: '/playlist/{playlistId}',
     handler: function (request, reply) {
         const params = {
             auth: oauth2Client,
@@ -91,21 +91,22 @@ server.route({
     }
 });
 
+/**
+ * body = {videoId: string}
+ */
 server.route({
-    method: 'GET',
-    path: '/playlist/items/add',
+    method: 'POST',
+    path: '/playlist/{playlistId}/items',
     handler: function (request, reply) {
-        const playlistId = request.params.playlistId;
-
         const params = {
             auth: oauth2Client,
             part: 'snippet',
             resource: {
                 snippet: {
-                    playlistId: playlistId,
+                    playlistId: request.params.playlistId,
                     resourceId: {
                         kind: 'youtube#video',
-                        videoId: '-Fulz4ytZ54'
+                        videoId: request.payload.videoId
                     }
                 }
             }
