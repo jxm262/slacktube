@@ -1,25 +1,19 @@
 'use strict';
 
 const Hapi = require('hapi');
-
-// Create a server with a host and port
+const secrets = require('./config/secrets');
+const google = require('googleapis');
+const youtube = google.youtube('v3');
+const OAuth2Client = google.auth.OAuth2;
+const oauth2Client = new OAuth2Client(secrets.CLIENT_ID, secrets.CLIENT_SECRET, secrets.REDIRECT_URL);
 const server = new Hapi.Server();
+
 server.connection({
     host: 'localhost',
     port: 9004
 });
 
 
-/*****************************************************************************
- * todo: move this code
- ****************************************************************************/
-const google = require('googleapis');
-const secrets = require('./config/secrets');
-
-const OAuth2Client = google.auth.OAuth2;
-const youtube = google.youtube('v3');
-
-const oauth2Client = new OAuth2Client(secrets.CLIENT_ID, secrets.CLIENT_SECRET, secrets.REDIRECT_URL);
 
 server.route({
     method: 'GET',
@@ -83,9 +77,6 @@ server.route({
             if (err) {
                 return reply(err);
             }
-
-            //Note - to watch video , redirect to youtube.com/watch?v=<id>
-            //youtube.com/watch?v=-Fulz4ytZ54
             return reply(data);
         });
     }
@@ -123,12 +114,6 @@ server.route({
         });
     }
 });
-
-
-
-
-/*****************************************************************************
- *****************************************************************************/
 
 
 server.start((err) => {
