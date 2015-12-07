@@ -35,6 +35,7 @@ server.route({
     handler: function (request, reply) {
         const code = request.query.code;
         oauth2Client.getToken(code, function (err, tokens) {
+            console.log('tokens..', tokens);
             //TODO persist the user and the tokens
             oauth2Client.setCredentials(tokens);
             return reply('logged in with tokens - ' + tokens);
@@ -112,6 +113,50 @@ server.route({
             //youtube.com/watch?v=-Fulz4ytZ54
             return reply(data);
         });
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/slack/youtube/add/{playlistId}',
+    handler: function (request, reply) {
+        //parse payload text - holy shit this is horrendous string parsing (splits).
+        // TODO refactor to use regex like a real programmer
+        console.log('payload...', request.payload);
+        const text = (request.payload.text).split('add');
+        if(text.length >= 2) {
+            const words = text[1].split('v=');
+            console.log('words...', words);
+            const id = ((words[1].split('&'))[0]).split('>')[0];
+            console.log('id...', id);
+            const params = {
+                auth: oauth2Client,
+                part: 'snippet',
+                resource: {
+                    snippet: {
+                        playlistId: request.params.playlistId,
+                        resourceId: {
+                            kind: 'youtube#video',
+                            videoId: id
+                        }
+                    }
+                }
+            };
+
+            youtube.playlistItems.insert(params, function (err, data) {
+                if (err) {
+                    console.log('err..', err)
+                    return reply(err);
+                }
+
+                //Note - to watch video , redirect to youtube.com/watch?v=<id>
+                //youtube.com/watch?v=-Fulz4ytZ54
+                console.log('data..', data);
+                return reply(data);
+            });
+        } else {
+            return reply('not able to add');
+        }
     }
 });
 
