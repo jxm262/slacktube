@@ -75,7 +75,7 @@ server.register(Vision, (err) => {
             oauth2Client.getToken(code, function (err, tokens) {
                 //TODO persist the user and the tokens
                 oauth2Client.setCredentials(tokens);
-                return reply('logged in with tokens - ' + tokens);
+                return reply.view('oauthcallback', {tokens: tokens});
             });
         }
     });
