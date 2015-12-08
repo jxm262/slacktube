@@ -80,6 +80,25 @@ server.register(Vision, (err) => {
         }
     });
 
+    server.route({
+        method: 'GET',
+        path: '/playlists',
+        handler: (request, reply) => {
+            const params = {
+                auth: oauth2Client,
+                part: 'snippet',
+                mine: true
+            };
+
+            youtube.playlists.list(params, function (err, data) {
+                if (err) {
+                    return reply(err);
+                }
+
+                return reply.view('playlists', data);
+            });
+        }
+    });
 
     server.route({
         method: 'GET',
@@ -95,7 +114,7 @@ server.register(Vision, (err) => {
                 if (err) {
                     return reply(err);
                 }
-                return reply(data);
+                return reply.view('playlist', data);
             });
         }
     });
