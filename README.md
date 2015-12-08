@@ -10,7 +10,8 @@ Slack Youtube Playlist integration
 
 Note, the api's will change here shortly.  Will be updating these docs progressively until we get to a stable enough version to release out in the open.
 
-#### Uses following 
+
+#### Uses the following 
 - Hapi.js
 - React (rendered server side)
 - Google node client apis [link](https://github.com/google/google-api-nodejs-client/)
