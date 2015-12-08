@@ -7,7 +7,7 @@ var Component = React.createClass({
 
         return (
             <Layout title="About Us">
-                <h1>About the plot device.</h1>
+                <h1>This app allows you to sync music across platforms like youtube</h1>
             </Layout>
         );
     }

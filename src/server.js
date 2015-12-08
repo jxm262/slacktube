@@ -3,7 +3,7 @@
 const Hapi = require('hapi');
 const Vision = require('vision');
 const HapiReactViews = require('hapi-react-views');
-const secrets = require('./config/secrets');
+const secrets = require('./../config/secrets');
 const google = require('googleapis');
 const youtube = google.youtube('v3');
 const OAuth2Client = google.auth.OAuth2;
@@ -32,7 +32,7 @@ server.register(Vision, (err) => {
             jsx: HapiReactViews
         },
         relativeTo: __dirname,
-        path: 'src/views'
+        path: 'views'
     });
 
     server.route({
