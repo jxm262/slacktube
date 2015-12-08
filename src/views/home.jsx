@@ -7,7 +7,7 @@ var Component = React.createClass({
 
         return (
             <Layout title="Home Page">
-                <h1>Welcome to the plot device.</h1>
+                <h1>Slacktube App - Sync Music and Vdieo Playlists</h1>
             </Layout>
         );
     }
