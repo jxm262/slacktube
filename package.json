@@ -25,7 +25,11 @@
   "dependencies": {
     "googleapis": "^2.1.6",
     "hapi": "^11.1.2",
-    "sqlite3": "^3.1.1"
+    "hapi-react-views": "^5.0.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "sqlite3": "^3.1.1",
+    "vision": "^4.0.1"
   },
   "devDependencies": {
     "supervisor": "^0.9.1"
