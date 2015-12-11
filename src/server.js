@@ -3,11 +3,11 @@
 const Hapi = require('hapi');
 const Vision = require('vision');
 const HapiReactViews = require('hapi-react-views');
-const secrets = require('./../config/secrets');
+const config = require('./../config');
 const google = require('googleapis');
 const youtube = google.youtube('v3');
 const OAuth2Client = google.auth.OAuth2;
-const oauth2Client = new OAuth2Client(secrets.CLIENT_ID, secrets.CLIENT_SECRET, secrets.REDIRECT_URL);
+const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLIENT_SECRET, config.google.REDIRECT_URL);
 const server = new Hapi.Server();
 
 
@@ -16,8 +16,8 @@ require('babel-core/register')({
 });
 
 server.connection({
-    host: 'localhost',
-    port: 9004
+    host: config.db.host,
+    port: config.db.port
 });
 
 

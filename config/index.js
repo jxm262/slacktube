@@ -16,7 +16,21 @@
  */
 
 module.exports = {
-    CLIENT_ID: 'YOUR CLIENT ID HERE',
-    CLIENT_SECRET: 'YOUR CLIENT SECRET HERE',
-    REDIRECT_URL: 'YOUR REDIRECT URL HERE'
+    db: {
+        mongo: {
+            username: 'justin',
+            password: 'Password1234',
+            url: '127.0.0.1:27017',
+            database: 'test'
+        },
+        server: {
+            hostname: 'localhost',
+            port: 9004
+        }
+    },
+    google: {
+        CLIENT_ID: '',
+        CLIENT_SECRET: '',
+        REDIRECT_URL: ''
+    }
 };
