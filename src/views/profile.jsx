@@ -15,7 +15,9 @@ var Component = React.createClass({
         return (
             <Layout title="Profile">
                 <h1>Profile Page</h1>
-
+                <p>
+                    <a href="/google">Enable Google</a>
+                </p>
                 {errors}
                 {user}
 

@@ -14,5 +14,7 @@ exports.endpoints = [
 
     { method: 'POST',   path: '/login',          config: Authentication.login },
     { method: 'GET',    path: '/logout',         config: Authentication.logout },
-    { method: 'POST',   path: '/register',       config: Authentication.register }
+    { method: 'POST',   path: '/register',       config: Authentication.register },
+
+    { method: 'GET',    path: '/youtube',        config: Authentication.youtube }
 ];

@@ -10,11 +10,11 @@ var Component = React.createClass({
                     <title>{this.props.title}</title>
                 </head>
                 <body>
-                    {this.props.children}
-                    <hr />
                     <p>
                         <a href="/">Home</a> | <a href="/about">About Us</a> | <a href="/login">Login</a> | <a href="/playlists">Playlists</a> |
                     </p>
+                    <hr />
+                    {this.props.children}
                 </body>
             </html>
         );

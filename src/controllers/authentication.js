@@ -76,3 +76,18 @@ exports.register = {
         });
     }
 };
+
+/**
+ * GET /youtube redirects to oauth2 url (enable google account page)
+ */
+exports.youtube = {
+    handler: (request, reply) => {
+        const url = oauth2Client.generateAuthUrl({
+            access_type: 'offline', // will return a refresh token
+            scope: 'https://www.googleapis.com/auth/youtube'
+        });
+
+        return reply.redirect(url);
+    }
+};
+
