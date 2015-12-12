@@ -2,8 +2,7 @@ var Joi = require('joi');
 var User = require('../models/user');
 const config = require('../../config');
 const google = require('googleapis');
-const OAuth2Client = google.auth.OAuth2;
-const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLIENT_SECRET, config.google.REDIRECT_URL);
+const oauth2Client = require('../../config/oauth2Client');
 
 /**
  * POST /login logs the user in

@@ -1,3 +1,6 @@
+const google = require('googleapis');
+const oauth2Client = require('../../config/oauth2Client');
+
 /**
  * Handles a call to / and shows some text with links to login and registration
  */
@@ -71,5 +74,32 @@ exports.profile = {
     auth: 'session',
     handler: function (request, reply) {
         return reply.view('profile', {user: request.auth.credentials});
+    }
+};
+
+/**
+ * GET /youtube/playlists shows youtube playlists
+ */
+exports.youtubePlaylists = {
+    auth: 'session',
+    handler: (request, reply) => {
+
+        //TODO: set credentials from user in db
+        const tokens = null;
+        oauth2Client.setCredentials(tokens);
+
+        const params = {
+            auth: oauth2Client,
+            part: 'snippet',
+            mine: true
+        };
+
+        youtube.playlists.list(params, function (err, data) {
+            if (err) {
+                return reply(err);
+            }
+
+            return reply.view('playlists', data);
+        });
     }
 };
