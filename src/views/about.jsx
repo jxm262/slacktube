@@ -8,6 +8,7 @@ var Component = React.createClass({
         return (
             <Layout title="About Us">
                 <h1>This app allows you to sync music across platforms like youtube</h1>
+                {this.props.data}
             </Layout>
         );
     }

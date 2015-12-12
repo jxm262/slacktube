@@ -50,6 +50,15 @@ server.register([require('hapi-auth-cookie'), require('vision')], function (err)
         relativeTo: __dirname,
         path: 'views'
     });
+
+        server.route({
+        method: 'GET',
+        path: '/temp',
+        handler: (request, reply) => {
+                reply.view('temp', {test: 'asdfasdf'});
+        }
+    });
+
 });
 
 // Print some information about the incoming request for debugging purposes

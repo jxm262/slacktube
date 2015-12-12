@@ -8,14 +8,25 @@ exports.index = {
         strategy: 'session'
     },
     handler: function (request, reply) {
-
-        if (request.auth.isAuthenticated) {
-            console.log('in index - isAuthenticated = true..', request);
-            // The user is already logged in, redirect it to the hideout
-            return reply.redirect('/batmanshideout');
-        }
-        console.log('in index view');
+        //if (request.auth.isAuthenticated) {
+        //    // The user is already logged in, redirect it
+        //    return reply.redirect('/batmanshideout');
+        //}
         return reply.view('home');
+    }
+};
+
+exports.about = {
+    auth: {
+        mode: 'try',
+        strategy: 'session'
+    },
+    handler: function (request, reply) {
+        //if (request.auth.isAuthenticated) {
+        //    // The user is already logged in, redirect it
+        //    return reply.redirect('/batmanshideout');
+        //}
+        return reply.view('about', {data: 'some message'});
     }
 };
 

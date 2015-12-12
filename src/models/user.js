@@ -24,4 +24,4 @@ userSchema.plugin(require('passport-local-mongoose'), {
 });
 
 //create the model and add it to the exports
-module.exports = Mongoose.model('User', userSchema, 'Users');
+module.exports = Mongoose.model('User', userSchema);
