@@ -8,11 +8,13 @@ exports.index = {
         strategy: 'session'
     },
     handler: function (request, reply) {
-        //if (request.auth.isAuthenticated) {
-        //    // The user is already logged in, redirect it
-        //    return reply.redirect('/batmanshideout');
-        //}
-        return reply.view('home');
+        const user = (request.auth.isAuthenticated)
+            ? {user: request.auth.credentials}
+            : null;
+        
+        console.log('user..', user);
+
+        return reply.view('home', user);
     }
 };
 
@@ -22,10 +24,10 @@ exports.about = {
         strategy: 'session'
     },
     handler: function (request, reply) {
-        //if (request.auth.isAuthenticated) {
-        //    // The user is already logged in, redirect it
-        //    return reply.redirect('/batmanshideout');
-        //}
+        if (request.auth.isAuthenticated) {
+            // The user is already logged in, redirect it
+            //return reply.redirect('/batmanshideout');
+        }
         return reply.view('about', {data: 'some message'});
     }
 };
@@ -42,8 +44,9 @@ exports.login = {
 
         if (request.auth.isAuthenticated) {
             // The user is already logged in, redirect it to the hideout
-            return reply.redirect('/batmanshideout');
+            //return reply.redirect('/batmanshideout');
         }
+        console.log('request.auth', request.auth);
 
         return reply.view('login');
     }
