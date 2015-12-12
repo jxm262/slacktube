@@ -16,17 +16,15 @@
  */
 
 module.exports = {
-    db: {
-        mongo: {
-            username: 'justin',
-            password: 'Password1234',
-            url: '127.0.0.1:27017',
-            database: 'test'
-        },
-        server: {
-            hostname: 'localhost',
-            port: 9004
-        }
+    mongo: {
+        username: 'justin',
+        password: 'Password1234',
+        url: '127.0.0.1:27017',
+        database: 'test'
+    },
+    server: {
+        hostname: 'localhost',
+        port: 9004
     },
     google: {
         CLIENT_ID: '',
