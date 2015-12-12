@@ -14,6 +14,10 @@ var userSchema = new Mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now
+  },
+	youtube: {
+    type: Object,
+    required: false
   }
 });
 
@@ -24,4 +28,4 @@ userSchema.plugin(require('passport-local-mongoose'), {
 });
 
 //create the model and add it to the exports
-module.exports = Mongoose.model('User', userSchema);
+module.exports = Mongoose.model('User', userSchema, 'Users');

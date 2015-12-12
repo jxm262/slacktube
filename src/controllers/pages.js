@@ -1,4 +1,3 @@
-
 /**
  * Handles a call to / and shows some text with links to login and registration
  */
@@ -30,7 +29,8 @@ exports.about = {
 };
 
 /**
- * GET /login shows the login page.  Redirects to /profile if already logged in
+ * GET /login shows the login page.
+ * Redirects to /profile if already logged in
  */
 exports.login = {
     auth: {
@@ -47,7 +47,8 @@ exports.login = {
 };
 
 /**
- * GET /register shows registration form.  Redirects to /profile if already logged in
+ * GET /register shows registration form.
+ * Redirects to /profile if already logged in
  */
 exports.register = {
     auth: {

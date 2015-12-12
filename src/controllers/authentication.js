@@ -1,5 +1,9 @@
 var Joi = require('joi');
 var User = require('../models/user');
+const config = require('../../config');
+const google = require('googleapis');
+const OAuth2Client = google.auth.OAuth2;
+const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLIENT_SECRET, config.google.REDIRECT_URL);
 
 /**
  * POST /login logs the user in
@@ -81,6 +85,7 @@ exports.register = {
  * GET /youtube redirects to oauth2 url (enable google account page)
  */
 exports.youtube = {
+    auth: 'session',
     handler: (request, reply) => {
         const url = oauth2Client.generateAuthUrl({
             access_type: 'offline', // will return a refresh token
@@ -88,6 +93,31 @@ exports.youtube = {
         });
 
         return reply.redirect(url);
+    }
+};
+
+/**
+ * GET /youtube redirects to oauth2 url (enable google account page)
+ */
+exports.youtubeOAuth = {
+    auth: 'session',
+    handler: (request, reply) => {
+        const code = request.query.code;
+
+        oauth2Client.getToken(code, function (err, tokens) {
+            oauth2Client.setCredentials(tokens);
+
+            const query = {_id: request.auth.credentials._id};
+
+            User.findOneAndUpdate(query, {youtube: tokens}, function (err, data) {
+                if(err) {
+                    console.log('err..', err);
+                    //TODO redirect on error
+                }
+
+                return reply.redirect('/profile');
+            });
+        });
     }
 };
 

@@ -19,7 +19,7 @@ module.exports = {
     mongo: {
         username: 'justin',
         password: 'Password1234',
-        url: '127.0.0.1:27017',
+        url: 'localhost:27017',
         database: 'test'
     },
     server: {
@@ -27,8 +27,8 @@ module.exports = {
         port: 9004
     },
     google: {
-        CLIENT_ID: '',
-        CLIENT_SECRET: '',
-        REDIRECT_URL: ''
+        CLIENT_ID: '829952237297-d8t8ub8k10vokjofmn27c25ka2a495a8.apps.googleusercontent.com',
+        CLIENT_SECRET: 'eWzVARvtLsM-hfmQGPP3i4NZ',
+        REDIRECT_URL: 'http://localhost:9004/youtube/oauthcallback'
     }
 };
