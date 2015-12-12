@@ -1,5 +1,5 @@
-//var Pages = require('./controllers/pages');
-//var Authentication = require('./controllers/authentication');
+var Pages = require('./controllers/pages');
+var Authentication = require('./controllers/authentication');
 
 /**
  * Contains the list of all routes, i.e. methods, paths and the config functions
