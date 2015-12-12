@@ -12,28 +12,25 @@ exports.index = {
             ? {user: request.auth.credentials}
             : null;
         
-        console.log('user..', user);
-
         return reply.view('home', user);
     }
 };
 
+/**
+ * GET /about about page
+ */
 exports.about = {
     auth: {
         mode: 'try',
         strategy: 'session'
     },
     handler: function (request, reply) {
-        if (request.auth.isAuthenticated) {
-            // The user is already logged in, redirect it
-            //return reply.redirect('/batmanshideout');
-        }
         return reply.view('about', {data: 'some message'});
     }
 };
 
 /**
- * Handles a call to /login and shows a login form
+ * GET /login shows the login page.  Redirects to /profile if already logged in
  */
 exports.login = {
     auth: {
@@ -41,19 +38,16 @@ exports.login = {
         strategy: 'session'
     },
     handler: function (request, reply) {
-
         if (request.auth.isAuthenticated) {
-            // The user is already logged in, redirect it to the hideout
-            //return reply.redirect('/batmanshideout');
+            return reply.redirect('/profile');
         }
-        console.log('request.auth', request.auth);
 
         return reply.view('login');
     }
 };
 
 /**
- * Handles a call to /register and shows a registration form
+ * GET /register shows registration form.  Redirects to /profile if already logged in
  */
 exports.register = {
     auth: {
@@ -61,10 +55,8 @@ exports.register = {
         strategy: 'session'
     },
     handler: function (request, reply) {
-
         if (request.auth.isAuthenticated) {
-            // The user is already logged in, redirect it to the hideout
-            return reply.redirect('/batmanshideout');
+            return reply.redirect('/profile');
         }
 
         return reply.view('register');
@@ -72,13 +64,11 @@ exports.register = {
 };
 
 /**
- * Handles a call to /batmanshideout and shows super secret stuff
+ * GET /profile shows profile page
  */
-exports.secret = {
+exports.profile = {
     auth: 'session',
     handler: function (request, reply) {
-        return reply.view('secrethideout', {
-            email: request.auth.credentials.email
-        });
+        return reply.view('profile', {user: request.auth.credentials});
     }
 };
