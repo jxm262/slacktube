@@ -12,6 +12,7 @@ exports.endpoints = [
     { method: 'GET',    path: '/register',       config: Pages.register },
     { method: 'GET',    path: '/profile',        config: Pages.profile },
     { method: 'GET',    path: '/youtube/playlists',        config: Pages.youtubePlaylists },
+    { method: 'GET',    path: '/youtube/playlist/{playlistId}',        config: Pages.youtubePlaylistById },
 
     { method: 'POST',   path: '/login',          config: Authentication.login },
     { method: 'GET',    path: '/logout',         config: Authentication.logout },

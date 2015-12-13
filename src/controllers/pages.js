@@ -1,6 +1,7 @@
 const google = require('googleapis');
 const oauth2Client = require('../../config/oauth2Client');
 const User = require('../models/user');
+const youtube = google.youtube('v3');
 
 /**
  * Handles a call to / and shows some text with links to login and registration
@@ -14,7 +15,7 @@ exports.index = {
         const user = (request.auth.isAuthenticated)
             ? {user: request.auth.credentials}
             : null;
-        
+
         return reply.view('home', user);
     }
 };
@@ -84,27 +85,62 @@ exports.profile = {
 exports.youtubePlaylists = {
     auth: 'session',
     handler: (request, reply) => {
+        const id = request.auth.credentials._id;
+        User.findById(id, function (err, user) {
+            if (err) {
+                //TODO handle error
+                console.log(err);
+            }
 
-        console.log('request.auth.credentials', request.auth);
-        //User.findById()
+            const tokens = user.youtube;
+            oauth2Client.setCredentials(tokens);
 
+            const params = {
+                auth: oauth2Client,
+                part: 'snippet',
+                mine: true
+            };
 
-        //TODO: set credentials from user in db
-        //const tokens = null;
-        //oauth2Client.setCredentials(tokens);
-        //
-        //const params = {
-        //    auth: oauth2Client,
-        //    part: 'snippet',
-        //    mine: true
-        //};
-        //
-        //youtube.playlists.list(params, function (err, data) {
-        //    if (err) {
-        //        return reply(err);
-        //    }
-        //
-        //    return reply.view('playlists', data);
-        //});
+            youtube.playlists.list(params, function (err, resp) {
+                if (err) {
+                    return reply(err);
+                }
+                
+                return reply(resp);
+            });
+        });
+    }
+};
+
+/**
+ * GET /youtube/playlists shows youtube playlist by id
+ */
+exports.youtubePlaylistById = {
+    auth: 'session',
+    handler: (request, reply) => {
+        const id = request.auth.credentials._id;
+        User.findById(id, function (err, user) {
+            if (err) {
+                //TODO handle error
+                console.log(err);
+            }
+
+            const tokens = user.youtube;
+            oauth2Client.setCredentials(tokens);
+
+            const params = {
+                auth: oauth2Client,
+                part: 'snippet',
+                playlistId: request.params.playlistId
+            };
+
+            youtube.playlistItems.list(params, function (err, resp) {
+                if (err) {
+                    return reply(err);
+                }
+
+                return reply(resp);
+            });
+        });
     }
 };

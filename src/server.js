@@ -6,7 +6,6 @@ const HapiReactViews = require('hapi-react-views');
 const config = require('../config');
 const google = require('googleapis');
 var Routes = require('./routes');
-const youtube = google.youtube('v3');
 const OAuth2Client = google.auth.OAuth2;
 const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLIENT_SECRET, config.google.REDIRECT_URL);
 const server = new Hapi.Server();
@@ -48,7 +47,11 @@ server.register([require('hapi-auth-cookie'), require('vision')], function (err)
             jsx: HapiReactViews
         },
         relativeTo: __dirname,
-        path: 'views'
+        path: 'views',
+        compileOptions: {
+            doctype: '<!DOCTYPE html>',
+            renderMethod: 'renderToString'
+        }
     });
 
 });
