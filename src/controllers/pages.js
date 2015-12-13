@@ -1,5 +1,6 @@
 const google = require('googleapis');
 const oauth2Client = require('../../config/oauth2Client');
+const User = require('../models/user');
 
 /**
  * Handles a call to / and shows some text with links to login and registration
@@ -84,22 +85,26 @@ exports.youtubePlaylists = {
     auth: 'session',
     handler: (request, reply) => {
 
+        console.log('request.auth.credentials', request.auth);
+        //User.findById()
+
+
         //TODO: set credentials from user in db
-        const tokens = null;
-        oauth2Client.setCredentials(tokens);
-
-        const params = {
-            auth: oauth2Client,
-            part: 'snippet',
-            mine: true
-        };
-
-        youtube.playlists.list(params, function (err, data) {
-            if (err) {
-                return reply(err);
-            }
-
-            return reply.view('playlists', data);
-        });
+        //const tokens = null;
+        //oauth2Client.setCredentials(tokens);
+        //
+        //const params = {
+        //    auth: oauth2Client,
+        //    part: 'snippet',
+        //    mine: true
+        //};
+        //
+        //youtube.playlists.list(params, function (err, data) {
+        //    if (err) {
+        //        return reply(err);
+        //    }
+        //
+        //    return reply.view('playlists', data);
+        //});
     }
 };
