@@ -1,6 +1,7 @@
 var Joi = require('joi');
 var User = require('../models/user');
 const config = require('../../config');
+const google = require('googleapis');
 const oauth2Client = require('../../config/oauth2Client');
 
 /**
