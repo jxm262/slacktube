@@ -34,14 +34,6 @@ server.register([require('hapi-auth-cookie'), require('vision')], function (err)
         ttl: 24* 60 * 60 * 1000 // Set session to 1 day
     });
 
-    // Set our view engine, we'll use handlebars
-    //server.views({
-    //    engines: {
-    //        html: require('handlebars')
-    //    },
-    //    path: __dirname + '/views'
-    //});
-
     server.views({
         engines: {
             jsx: HapiReactViews
