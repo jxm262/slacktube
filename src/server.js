@@ -24,12 +24,11 @@ const frontend = server.connection({
 
 const backend = server.connection({
     host: config.server.hostname,
-    port: config.server.port+1,
+    port: config.server.port + 1,
     labels: 'backend'
 });
 
 frontend.register([require('hapi-auth-cookie'), require('vision')], function (err) {
-
     if (err) {
         throw err;
     }
@@ -39,7 +38,7 @@ frontend.register([require('hapi-auth-cookie'), require('vision')], function (er
         password: 'worldofwalmart', // cookie secret
         cookie: 'session', // Cookie name
         isSecure: false, // required for non-https applications
-        ttl: 24* 60 * 60 * 1000 // Set session to 1 day
+        ttl: 24 * 60 * 60 * 1000 // Set session to 1 day
     });
 
     frontend.views({
@@ -64,15 +63,11 @@ backend.register(require('hapi-auth-jwt2'), function (err) {
     // Set our strategy
     backend.auth.strategy('jwt', 'jwt', {
         key: 'supersecretkey',
-        validateFunc: function (decodedToken, callback) {
-            console.log('decodedToken', decodedToken);
-            console.log('jwt validate function')
-            callback(decodedToken);
-        }
+        validateFunc: require('./controllers/api').validate,
+        verifyOptions: {algorithms: ['HS256']}
     });
 
 });
-
 
 
 frontend.route(Routes.endpoints.frontend);
@@ -87,6 +82,6 @@ frontend.ext('onRequest', function (request, reply) {
 
 
 // Start the server
-server.start(function() {
+server.start(function () {
     _.forEach(server.connections, connection => console.log("The server has started on port: " + connection.info.port));
 });

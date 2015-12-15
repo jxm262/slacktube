@@ -28,7 +28,7 @@ exports.endpoints = {
     ],
     backend: [
         {method: 'POST', path: '/api/login', config: Api.login},
-        {method: 'GET', path: '/api/status', config: {auth: 'jwt'}, config: Api.status}
+        {method: 'GET', path: '/api/status', config: Api.status}
     ]
 };
 

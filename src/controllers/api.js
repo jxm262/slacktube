@@ -3,8 +3,16 @@ var User = require('../models/user');
 const config = require('../../config');
 const google = require('googleapis');
 const oauth2Client = require('../../config/oauth2Client');
-const JWT   = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 
+exports.validate = function (decodedToken, request, callback) {
+    console.log('decodedToken', decodedToken);
+    console.log('jwt validate function')
+    User.findById(decodedToken._id, function (err, user) {
+        const isAuth = (err) ? false : true;
+        callback(null, isAuth);
+    });
+};
 
 /**
  * POST /api/login logs the user in
@@ -33,6 +41,7 @@ exports.login = {
             // in our session and redirect the user to the hideout
             if (user) {
                 var token = JWT.sign(user, 'supersecretkey');
+                console.log('token..', token);
                 return reply({message: 'welcome', token: token});
             } else {
                 reply('Authentiction failed. Please check credentials and retry');
@@ -42,7 +51,9 @@ exports.login = {
 };
 
 exports.status = {
+    auth: 'jwt',
     handler: function (request, reply) {
+        //console.log(request);
         reply({text: 'You used a Token!'})
             .header("Authorization", request.headers.authorization);
     }
