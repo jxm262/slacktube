@@ -5,10 +5,10 @@ const google = require('googleapis');
 const oauth2Client = require('../../config/oauth2Client');
 const JWT = require('jsonwebtoken');
 
+//prolly shouldn't be in this file?
 exports.validate = function (decodedToken, request, callback) {
-    console.log('decodedToken', decodedToken);
-    console.log('jwt validate function')
     User.findById(decodedToken._id, function (err, user) {
+        console.log('decodedToken...', decodedToken);
         const isAuth = (err) ? false : true;
         callback(null, isAuth);
     });
@@ -22,7 +22,6 @@ exports.validate = function (decodedToken, request, callback) {
 exports.login = {
     handler: function (request, reply) {
         User.authenticate()(request.payload.email, request.payload.password, function (err, user, passwordError) {
-            console.log('in handler /login');
             // There has been an error, do something with it. I just print it to console for demo purposes.
             if (err) {
                 console.error(err);
@@ -40,8 +39,14 @@ exports.login = {
             // If the authentication failed user will be false. If it's not false, we store the user
             // in our session and redirect the user to the hideout
             if (user) {
-                var token = JWT.sign(user, 'supersecretkey');
-                console.log('token..', token);
+                var token = JWT.sign(
+                    {
+                    _id: user._id,
+                    agent: request.headers['user-agent']
+                    },
+                    config.jwt.key
+                    //,{expiresIn: '3 days'}    //todo do we need expiry
+                );
                 return reply({message: 'welcome', token: token});
             } else {
                 reply('Authentiction failed. Please check credentials and retry');
@@ -53,7 +58,6 @@ exports.login = {
 exports.status = {
     auth: 'jwt',
     handler: function (request, reply) {
-        //console.log(request);
         reply({text: 'You used a Token!'})
             .header("Authorization", request.headers.authorization);
     }

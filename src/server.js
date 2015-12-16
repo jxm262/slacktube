@@ -62,7 +62,7 @@ backend.register(require('hapi-auth-jwt2'), function (err) {
 
     // Set our strategy
     backend.auth.strategy('jwt', 'jwt', {
-        key: 'supersecretkey',
+        key: config.jwt.key,
         validateFunc: require('./controllers/api').validate,
         verifyOptions: {algorithms: ['HS256']}
     });
