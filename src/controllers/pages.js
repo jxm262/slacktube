@@ -103,6 +103,7 @@ exports.youtubePlaylists = {
 
             youtube.playlists.list(params, function (err, resp) {
                 if (err) {
+                    console.log('error from google', err);
                     return reply(err);
                 }
                 
