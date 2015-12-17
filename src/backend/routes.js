@@ -17,21 +17,16 @@ module.exports = [
         path: '/api/status',
         config: authentication.status
     }
-    //,{
-    //    method: 'GET',
-    //    path: '/api/redirect',
-    //    config: authentication.youtubeEnable
-    //}
     ,{
         method: 'GET',
         path: '/api/youtube/playlists',
         config: youtube.playlists
     }
-    //,{
-    //    method: 'GET',
-    //    path: '/youtube/playlist/{playlistId}',
-    //    config: pages.youtubePlaylistById
-    //}
+    ,{
+        method: 'GET',
+        path: '/api/youtube/playlist/{playlistId}',
+        config: youtube.playlistById
+    }
     //,{
     //    method: 'POST',
     //    path: '/youtube/playlist/{playlistId}/items',
