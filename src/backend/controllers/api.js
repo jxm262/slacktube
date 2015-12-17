@@ -1,18 +1,10 @@
-var Joi = require('joi');
-var User = require('../models/user');
-const config = require('../../config');
-const google = require('googleapis');
-const oauth2Client = require('../../config/oauth2Client');
+const Joi = require('joi');
 const JWT = require('jsonwebtoken');
+const google = require('googleapis');
+const User = require('../../models/user');
+const config = require('../../../config');
+const oauth2Client = require('../../../config/oauth2Client');
 
-//prolly shouldn't be in this file?
-exports.validate = function (decodedToken, request, callback) {
-    User.findById(decodedToken._id, function (err, user) {
-        console.log('decodedToken...', decodedToken);
-        const isAuth = (err) ? false : true;
-        callback(null, isAuth);
-    });
-};
 
 /**
  * POST /api/login logs the user in

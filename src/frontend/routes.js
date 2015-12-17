@@ -1,7 +1,7 @@
-var Pages = require('../controllers/pages');
-var Authentication = require('../controllers/authentication');
+var Pages = require('./controllers/pages');
+var Authentication = require('./controllers/authentication');
 
-modules.exports = [
+module.exports = [
     {
         method: 'GET',
         path: '/',

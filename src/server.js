@@ -12,6 +12,7 @@ const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLI
 const server = new Hapi.Server();
 const _ = require('lodash');
 const jwt = require('hapi-auth-jwt2');
+const validateJwt = require('./backend/jwt/validate');
 
 
 require('babel-core/register')({
@@ -65,7 +66,7 @@ backend.register(jwt, function (err) {
     // Set our strategy
     backend.auth.strategy('jwt', 'jwt', {
         key: config.jwt.key,
-        validateFunc: require('./controllers/api').validate,
+        validateFunc: validateJwt,
         verifyOptions: {algorithms: ['HS256']}
     });
 
