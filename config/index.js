@@ -22,9 +22,12 @@ module.exports = {
         url: '',
         database: ''
     },
+    jwt: {
+        key: ''
+    },
     server: {
-        hostname: 'localhost',
-        port: 9004
+        hostname: '',
+        port: 8080
     },
     google: {
         CLIENT_ID: '',

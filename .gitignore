@@ -30,3 +30,5 @@ node_modules
 # Webstorm
 .DS_Store
 .idea
+
+config
