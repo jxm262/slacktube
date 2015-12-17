@@ -1,8 +1,8 @@
 var Joi = require('joi');
-var User = require('../models/user');
-const config = require('../../config');
 const google = require('googleapis');
-const oauth2Client = require('../../config/oauth2Client');
+var User = require('../../models/user');
+const config = require('../../../config');
+const oauth2Client = require('../../../config/oauth2Client');
 
 /**
  * POST /login logs the user in
@@ -119,4 +119,3 @@ exports.youtubeOAuth = {
         });
     }
 };
-

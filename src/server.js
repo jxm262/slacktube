@@ -5,12 +5,14 @@ const Vision = require('vision');
 const HapiReactViews = require('hapi-react-views');
 const config = require('../config');
 const google = require('googleapis');
-var Routes = require('./routes');
+const frontendRoutes = require('./frontend/routes');
+const backendRoutes = require('./backend/routes');
 const OAuth2Client = google.auth.OAuth2;
 const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLIENT_SECRET, config.google.REDIRECT_URL);
 const server = new Hapi.Server();
 const _ = require('lodash');
-
+const jwt = require('hapi-auth-jwt2');
+const validateJwt = require('./backend/jwt/validate');
 
 require('babel-core/register')({
     presets: ['react', 'es2015']
@@ -55,7 +57,7 @@ frontend.register([require('hapi-auth-cookie'), require('vision')], function (er
 });
 
 
-backend.register(require('hapi-auth-jwt2'), function (err) {
+backend.register(jwt, function (err) {
     if (err) {
         throw err;
     }
@@ -63,15 +65,15 @@ backend.register(require('hapi-auth-jwt2'), function (err) {
     // Set our strategy
     backend.auth.strategy('jwt', 'jwt', {
         key: config.jwt.key,
-        validateFunc: require('./controllers/api').validate,
+        validateFunc: validateJwt,
         verifyOptions: {algorithms: ['HS256']}
     });
 
 });
 
 
-frontend.route(Routes.endpoints.frontend);
-backend.route(Routes.endpoints.backend);
+frontend.route(frontendRoutes);
+backend.route(backendRoutes);
 
 
 // Print some information about the incoming request for debugging purposes

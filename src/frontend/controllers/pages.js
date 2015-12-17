@@ -1,7 +1,7 @@
 const google = require('googleapis');
-const oauth2Client = require('../../config/oauth2Client');
-const User = require('../models/user');
 const youtube = google.youtube('v3');
+const User = require('../../models/user');
+const oauth2Client = require('../../../config/oauth2Client');
 
 /**
  * Handles a call to / and shows some text with links to login and registration
