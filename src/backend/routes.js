@@ -24,7 +24,7 @@ module.exports = [
     //}
     ,{
         method: 'GET',
-        path: '/api/youtube/playlists/{playlistId}',
+        path: '/api/youtube/playlists',
         config: youtube.playlists
     }
     //,{
