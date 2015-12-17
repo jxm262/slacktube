@@ -1,4 +1,4 @@
-# Slacktube
+# Slacktube [![Build Status](https://travis-ci.org/jxm262/slacktube.svg)](https://travis-ci.org/jxm262/slacktube)  
 Slack Youtube Playlist integration
 
 # Note! This is still very much in the alpha stage.  
