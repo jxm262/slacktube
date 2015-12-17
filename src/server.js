@@ -14,7 +14,6 @@ const _ = require('lodash');
 const jwt = require('hapi-auth-jwt2');
 const validateJwt = require('./backend/jwt/validate');
 
-
 require('babel-core/register')({
     presets: ['react', 'es2015']
 });

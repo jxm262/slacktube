@@ -64,7 +64,7 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/youtube/enable',
+        path: '/youtube',
         config: authentication.youtube
     },
     {
