@@ -5,7 +5,8 @@ const Vision = require('vision');
 const HapiReactViews = require('hapi-react-views');
 const config = require('../config');
 const google = require('googleapis');
-var Routes = require('./routes/routes');
+const frontendRoutes = require('./frontend/routes');
+const backendRoutes = require('./backend/routes');
 const OAuth2Client = google.auth.OAuth2;
 const oauth2Client = new OAuth2Client(config.google.CLIENT_ID, config.google.CLIENT_SECRET, config.google.REDIRECT_URL);
 const server = new Hapi.Server();
@@ -71,8 +72,8 @@ backend.register(jwt, function (err) {
 });
 
 
-frontend.route(Routes.endpoints.frontend);
-backend.route(Routes.endpoints.backend);
+frontend.route(frontendRoutes);
+backend.route(backendRoutes);
 
 
 // Print some information about the incoming request for debugging purposes

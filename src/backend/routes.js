@@ -1,6 +1,5 @@
 var Api = require('./controllers/api');
 
-
 module.exports = [
     {
         method: 'POST',
