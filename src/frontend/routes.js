@@ -1,75 +1,75 @@
-var Pages = require('./controllers/pages');
-var Authentication = require('./controllers/authentication');
+const pages = require('./controllers/pages');
+const authentication = require('./controllers/authentication');
 
 module.exports = [
     {
         method: 'GET',
         path: '/',
-        config: Pages.index
+        config: pages.index
     },
     {
         method: 'GET',
         path: '/about',
-        config: Pages.about
+        config: pages.about
     },
     {
         method: 'GET',
         path: '/login',
-        config: Pages.login
+        config: pages.login
     },
     {
         method: 'GET',
         path: '/register',
-        config: Pages.register
+        config: pages.register
     },
     {
         method: 'GET',
         path: '/profile',
-        config: Pages.profile
+        config: pages.profile
     },
     {
         method: 'GET',
         path: '/youtube/playlists',
-        config: Pages.youtubePlaylists
+        config: pages.youtubePlaylists
     },
     {
         method: 'GET',
         path: '/youtube/playlist/{playlistId}',
-        config: Pages.youtubePlaylistById
+        config: pages.youtubePlaylistById
     },
     {
         method: 'POST',
         path: '/youtube/playlist/{playlistId}/items',
-        config: Pages.youtubePlaylistAddItem
+        config: pages.youtubePlaylistAddItem
     },
     {
         method: 'POST',
         path: '/slack/youtube/add/{playlistId}',
-        config: Pages.slackAddToYoutube
+        config: pages.slackAddToYoutube
     },
     {
         method: 'POST',
         path: '/login',
-        config: Authentication.login
+        config: authentication.login
     },
     {
         method: 'GET',
         path: '/logout',
-        config: Authentication.logout
+        config: authentication.logout
     },
     {
         method: 'POST',
         path: '/register',
-        config: Authentication.register
+        config: authentication.register
     },
     {
         method: 'GET',
-        path: '/youtube',
-        config: Authentication.youtube
+        path: '/youtube/enable',
+        config: authentication.youtube
     },
     {
         method: 'GET',
         path: '/youtube/oauthcallback',
-        config: Authentication.youtubeOAuth
+        config: authentication.youtubeOAuth
     }
 ];
