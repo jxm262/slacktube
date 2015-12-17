@@ -27,9 +27,9 @@ module.exports = [
         path: '/api/youtube/playlist/{playlistId}',
         config: youtube.playlistById
     }
-    //,{
-    //    method: 'POST',
-    //    path: '/youtube/playlist/{playlistId}/items',
-    //    config: pages.youtubePlaylistAddItem
-    //}
+    ,{
+        method: 'POST',
+        path: '/api/youtube/playlist/{playlistId}/items',
+        config: youtube.addPlaylistItem
+    }
 ];
