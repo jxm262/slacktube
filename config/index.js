@@ -17,18 +17,21 @@
 
 module.exports = {
     mongo: {
-        username: '',
-        password: '',
-        url: '',
-        database: ''
+        username: 'justin',
+        password: 'Password1234',
+        url: 'localhost:27017',
+        database: 'test'
+    },
+    jwt: {
+        key: 'eWzVARvtLsMhfmQGdDGSbb72PP3i4NZ'
     },
     server: {
         hostname: 'localhost',
         port: 9004
     },
     google: {
-        CLIENT_ID: '',
-        CLIENT_SECRET: '',
-        REDIRECT_URL: ''
+        CLIENT_ID: '829952237297-d8t8ub8k10vokjofmn27c25ka2a495a8.apps.googleusercontent.com',
+        CLIENT_SECRET: 'eWzVARvtLsM-hfmQGPP3i4NZ',
+        REDIRECT_URL: 'http://localhost:9004/youtube/oauthcallback'
     }
 };
