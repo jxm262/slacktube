@@ -1,14 +1,14 @@
-var proxyquire = require('proxyquire').noCallThru();
-//const Mongoose = require('../../../src/models/user');
+'use strict';
 
+const proxyquire = require('proxyquire').noCallThru();
 const chai = require("chai")
 const sinon = require("sinon")
 const should = chai.should();
 
 describe('youtube controller', function () {
-    var sandbox, youtube;
+    let sandbox, youtube;
 
-    beforeEach(function () {
+    beforeEach(() => {
         sandbox = sinon.sandbox.create();
 
         youtube = proxyquire("../../../src/backend/controllers/youtube", {
@@ -16,12 +16,12 @@ describe('youtube controller', function () {
         });
     });
 
-    afterEach(function () {
+    afterEach(() => {
         sandbox.restore();
     });
 
-    describe('playlist', function () {
-        it('should use jwt auth scheme', function () {
+    describe('playlist', () => {
+        it('should use jwt auth scheme', () => {
             youtube.playlists.auth.should.equal('jwt');
         });
     });
