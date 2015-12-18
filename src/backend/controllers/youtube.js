@@ -1,5 +1,5 @@
-const Joi = require('joi');
-const JWT = require('jsonwebtoken');
+'use strict';
+
 const _ = require('lodash');
 const google = require('googleapis');
 const youtube = google.youtube('v3');
@@ -20,7 +20,7 @@ module.exports = {
         handler: (request, reply) => {
             const id = request.auth.credentials._id;
 
-            User.findById(id, function (err, user) {
+            User.findById(id, (err, user) => {
                 if (err) {
                     reply({error: err});
                 }
@@ -39,7 +39,7 @@ module.exports = {
                     mine: true
                 };
 
-                youtube.playlists.list(params, function (err, resp) {
+                youtube.playlists.list(params, (err, resp) => {
                     if (err) {
                         return reply({error: err});
                     }
@@ -60,7 +60,7 @@ module.exports = {
         handler: (request, reply) => {
             const id = request.auth.credentials._id;
 
-            User.findById(id, function (err, user) {
+            User.findById(id, (err, user) => {
                 if (err) {
                     return reply({error: err});
                 }
@@ -79,7 +79,7 @@ module.exports = {
                     playlistId: request.params.playlistId
                 };
 
-                youtube.playlistItems.list(params, function (err, resp) {
+                youtube.playlistItems.list(params, (err, resp) => {
                     if (err) {
                         return reply({error: err});
                     }
@@ -103,7 +103,7 @@ module.exports = {
         handler: (request, reply) => {
             const id = request.auth.credentials._id;
 
-            User.findById(id, function (err, user) {
+            User.findById(id, (err, user) => {
                 if (err) {
                     return reply({error: err});
                 }
@@ -130,7 +130,62 @@ module.exports = {
                     }
                 };
 
-                youtube.playlistItems.insert(params, function (err, data) {
+                youtube.playlistItems.insert(params, (err, data) => {
+                    if (err) {
+                        return reply({error: err});
+                    }
+
+                    //Note - to watch video , redirect to youtube.com/watch?v=<id>
+                    //youtube.com/watch?v=-Fulz4ytZ54
+                    return reply(data);
+                });
+            });
+        }
+    },
+
+    /**
+     * POST
+     * /api/youtube/playlists
+     * adds an item into a given playlist
+     *
+     * @param {object} snippet
+     * @param {string} snippet.title
+     * @param {string=} snippet.description
+     * @param {string=} status.privacyStatus
+     * @param {array=} snippet.tags[]
+     * @param {string=} snippet.defaultLanguage
+     * @param {string=} localizations.(key)
+     * @param {string=} localizations.(key).title
+     * @param {string=} localizations.(key).description
+     */
+    addPlaylist: {
+        auth: 'jwt',
+        handler: (request, reply) => {
+            const id = request.auth.credentials._id;
+            const body = request.payload;
+
+            User.findById(id, (err, user) => {
+                if (err) {
+                    return reply({error: err});
+                }
+
+                const tokens = user.youtube;
+
+                if (_.isEmpty(tokens)) {
+                    return reply({error: 'missing google oauth token. Please enable youtube in the website first'});
+                }
+
+                oauth2Client.setCredentials(tokens);
+
+                const params = {
+                    auth: oauth2Client,
+                    part: 'snippet',
+                    resource: {
+                        snippet: body
+                    }
+                };
+
+                youtube.playlists.insert(params, (err, data) => {
                     if (err) {
                         return reply({error: err});
                     }
@@ -142,5 +197,4 @@ module.exports = {
             });
         }
     }
-
 };
