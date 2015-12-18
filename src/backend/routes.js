@@ -23,6 +23,11 @@ module.exports = [
         config: youtube.playlists
     }
     ,{
+        method: 'POST',
+        path: '/api/youtube/playlists',
+        config: youtube.addPlaylist
+    }
+    ,{
         method: 'GET',
         path: '/api/youtube/playlist/{playlistId}',
         config: youtube.playlistById

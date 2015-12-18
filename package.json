@@ -31,6 +31,8 @@
     "hapi-auth-cookie": "^3.1.0",
     "hapi-auth-jwt2": "^5.2.1",
     "hapi-react-views": "^5.0.1",
+    "joi": "^7.0.1",
+    "jsonwebtoken": "^5.4.1",
     "lodash": "^3.10.1",
     "mongoose": "^4.3.1",
     "passport-local-mongoose": "^3.1.0",
