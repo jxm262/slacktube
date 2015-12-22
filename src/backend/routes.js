@@ -1,6 +1,7 @@
 const authentication = require('./controllers/authentication');
 const youtube = require('./controllers/youtube');
 
+//TODO - remove this completely and have the routes in the controllers (dynamically load them onto the server)
 module.exports = [
     {
         method: 'POST',

@@ -6,6 +6,17 @@ const youtube = google.youtube('v3');
 const User = require('../../models/user');
 const config = require('../../../config');
 const oauth2Client = require('../../../config/oauth2Client');
+const Promise = require('bluebird');
+
+const validateTokens = user =>
+    _.isEmpty(user.youtube)
+        ? Promise.reject({error: 'missing google oauth token. Please enable youtube in the website first'})
+        : Promise.resolve(user.youtube);
+
+const setCredentials = tokens => {
+    oauth2Client.setCredentials(tokens);
+    Promise.resolve(oauth2Client);
+};
 
 
 module.exports = {
@@ -20,33 +31,25 @@ module.exports = {
         handler: (request, reply) => {
             const id = request.auth.credentials._id;
 
-            User.findById(id, (err, user) => {
-                if (err) {
-                    reply({error: err});
-                }
+            User.findByIdAsync(id)
+                .then(validateTokens)
+                .then(setCredentials)
+                .then(oauth2Client => {
+                    const params = {
+                        auth: oauth2Client,
+                        part: 'snippet',
+                        mine: true
+                    };
 
-                const tokens = user.youtube;
+                    youtube.playlists.list(params, (err, resp) => {
+                        if (err) {
+                            return reply({error: err});
+                        }
 
-                if (_.isEmpty(tokens)) {
-                    return reply({error: 'missing google oauth token. Please enable youtube in the website first'});
-                }
-
-                oauth2Client.setCredentials(tokens);
-
-                const params = {
-                    auth: oauth2Client,
-                    part: 'snippet',
-                    mine: true
-                };
-
-                youtube.playlists.list(params, (err, resp) => {
-                    if (err) {
-                        return reply({error: err});
-                    }
-
-                    return reply(resp);
-                });
-            });
+                        return reply(resp);
+                    });
+                })
+                .catch(reply);
         }
     },
 
@@ -181,7 +184,7 @@ module.exports = {
                     auth: oauth2Client,
                     part: 'snippet',
                     resource: {
-                        snippet: body
+                        snippet: body.snippet
                     }
                 };
 

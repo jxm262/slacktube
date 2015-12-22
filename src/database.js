@@ -1,6 +1,9 @@
 var Mongoose = require('mongoose');
 var Config = require('../config');
 
+var Promise = require("bluebird");
+Promise.promisifyAll(Mongoose);
+
 //load database
 // Mongoose.connect('mongodb://localhost/test');
 Mongoose.connect('mongodb://' + Config.mongo.username + ':' + Config.mongo.password + '@' + Config.mongo.url + '/' + Config.mongo.database);
