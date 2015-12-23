@@ -18,6 +18,12 @@ const setCredentials = tokens => {
     Promise.resolve(oauth2Client);
 };
 
+const replyErr = (err, reply) =>
+    (err.code)
+        ? reply({errors: err.errors}).code(403)
+        : reply(err).code(404);
+
+Promise.promisifyAll(youtube.playlists);
 
 module.exports = {
 
@@ -34,22 +40,15 @@ module.exports = {
             User.findByIdAsync(id)
                 .then(validateTokens)
                 .then(setCredentials)
-                .then(oauth2Client => {
-                    const params = {
-                        auth: oauth2Client,
-                        part: 'snippet',
-                        mine: true
-                    };
-
-                    youtube.playlists.list(params, (err, resp) => {
-                        if (err) {
-                            return reply({error: err});
-                        }
-
-                        return reply(resp);
-                    });
+                .then(auth => Promise.resolve({
+                    auth: auth,
+                    part: 'snippet',
+                    mine: true
                 })
-                .catch(reply);
+                )
+                .then(youtube.playlists.listAsync)
+                .then(reply)
+                .catch(e => replyErr(e, reply));
         }
     },
 
