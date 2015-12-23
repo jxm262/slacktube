@@ -1,4 +1,4 @@
-# Slacktube [![Build Status](https://travis-ci.org/jxm262/slacktube.svg)](https://travis-ci.org/jxm262/slacktube)  
+# Slacktube [![Build Status](https://travis-ci.org/jxm262/slacktube.svg)](https://travis-ci.org/jxm262/slacktube) [![Coverage Status](https://coveralls.io/repos/jxm262/slacktube/badge.svg?branch=master&service=github)](https://coveralls.io/github/jxm262/slacktube?branch=master)    
 Slack Youtube Playlist integration
 
 # Note! This is still very much in the alpha stage.  
