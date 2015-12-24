@@ -13,7 +13,7 @@ var Component = React.createClass({
             : null;
 
         return (
-            <Layout title="Profile">
+            <Layout title="Profile" {...this.props} >
                 <h1>Profile Page</h1>
                 <p>
                     <a href="/google">Enable Google</a>

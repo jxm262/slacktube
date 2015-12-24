@@ -6,7 +6,7 @@ var Component = React.createClass({
     render: function () {
 
         return (
-            <Layout title="OauthCallback">
+            <Layout title="OauthCallback" {...this.props} >
                 <h1>Logged in Successfully</h1>
                 <p>Using tokens: {this.props.tokens}</p>
             </Layout>
