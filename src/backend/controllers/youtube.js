@@ -5,8 +5,8 @@ const google = require('googleapis');
 const youtube = google.youtube('v3');
 const User = require('../../models/user');
 const config = require('../../../config');
-const oauth2Client = require('../../../config/oauth2Client');
 const Promise = require('bluebird');
+const oauth2Client = require('../../../config/oauth2Client');
 
 const validateTokens = user =>
     _.isEmpty(user.youtube)
@@ -15,7 +15,7 @@ const validateTokens = user =>
 
 const setCredentials = tokens => {
     oauth2Client.setCredentials(tokens);
-    Promise.resolve(oauth2Client);
+    return Promise.resolve(oauth2Client);
 };
 
 const replyErr = (err, reply) =>
@@ -24,6 +24,7 @@ const replyErr = (err, reply) =>
         : reply(err).code(404);
 
 Promise.promisifyAll(youtube.playlists);
+Promise.promisifyAll(youtube.playlistItems);
 
 module.exports = {
 
@@ -41,10 +42,10 @@ module.exports = {
                 .then(validateTokens)
                 .then(setCredentials)
                 .then(auth => Promise.resolve({
-                    auth: auth,
-                    part: 'snippet',
-                    mine: true
-                })
+                        auth: auth,
+                        part: 'snippet',
+                        mine: true
+                    })
                 )
                 .then(youtube.playlists.listAsync)
                 .then(reply)
@@ -62,33 +63,18 @@ module.exports = {
         handler: (request, reply) => {
             const id = request.auth.credentials._id;
 
-            User.findById(id, (err, user) => {
-                if (err) {
-                    return reply({error: err});
-                }
-
-                const tokens = user.youtube;
-
-                if (_.isEmpty(tokens)) {
-                    return reply({error: 'missing google oauth token. Please enable youtube in the website first'});
-                }
-
-                oauth2Client.setCredentials(tokens);
-
-                const params = {
-                    auth: oauth2Client,
-                    part: 'snippet',
-                    playlistId: request.params.playlistId
-                };
-
-                youtube.playlistItems.list(params, (err, resp) => {
-                    if (err) {
-                        return reply({error: err});
-                    }
-
-                    return reply(resp);
-                });
-            });
+            User.findByIdAsync(id)
+                .then(validateTokens)
+                .then(setCredentials)
+                .then(auth => Promise.resolve({
+                        auth: auth,
+                        part: 'snippet',
+                        playlistId: request.params.playlistId
+                    })
+                )
+                .then(youtube.playlistItems.listAsync)
+                .then(reply)
+                .catch(e => replyErr(e, reply));
         }
     },
 
@@ -105,43 +91,26 @@ module.exports = {
         handler: (request, reply) => {
             const id = request.auth.credentials._id;
 
-            User.findById(id, (err, user) => {
-                if (err) {
-                    return reply({error: err});
-                }
-
-                const tokens = user.youtube;
-
-                if (_.isEmpty(tokens)) {
-                    return reply({error: 'missing google oauth token. Please enable youtube in the website first'});
-                }
-
-                oauth2Client.setCredentials(tokens);
-
-                const params = {
-                    auth: oauth2Client,
-                    part: 'snippet',
-                    resource: {
-                        snippet: {
-                            playlistId: request.params.playlistId,
-                            resourceId: {
-                                kind: 'youtube#video',
-                                videoId: request.payload.videoId
+            User.findByIdAsync(id)
+                .then(validateTokens)
+                .then(setCredentials)
+                .then(auth => Promise.resolve({
+                        auth: auth,
+                        part: 'snippet',
+                        resource: {
+                            snippet: {
+                                playlistId: request.params.playlistId,
+                                resourceId: {
+                                    kind: 'youtube#video',
+                                    videoId: request.payload.videoId
+                                }
                             }
                         }
-                    }
-                };
-
-                youtube.playlistItems.insert(params, (err, data) => {
-                    if (err) {
-                        return reply({error: err});
-                    }
-
-                    //Note - to watch video , redirect to youtube.com/watch?v=<id>
-                    //youtube.com/watch?v=-Fulz4ytZ54
-                    return reply(data);
-                });
-            });
+                    })
+                )
+                .then(youtube.playlistItems.insertAsync)
+                .then(reply)
+                .catch(e => replyErr(e, reply));
         }
     },
 
@@ -166,37 +135,20 @@ module.exports = {
             const id = request.auth.credentials._id;
             const body = request.payload;
 
-            User.findById(id, (err, user) => {
-                if (err) {
-                    return reply({error: err});
-                }
-
-                const tokens = user.youtube;
-
-                if (_.isEmpty(tokens)) {
-                    return reply({error: 'missing google oauth token. Please enable youtube in the website first'});
-                }
-
-                oauth2Client.setCredentials(tokens);
-
-                const params = {
-                    auth: oauth2Client,
-                    part: 'snippet',
-                    resource: {
-                        snippet: body.snippet
-                    }
-                };
-
-                youtube.playlists.insert(params, (err, data) => {
-                    if (err) {
-                        return reply({error: err});
-                    }
-
-                    //Note - to watch video , redirect to youtube.com/watch?v=<id>
-                    //youtube.com/watch?v=-Fulz4ytZ54
-                    return reply(data);
-                });
-            });
+            User.findByIdAsync(id)
+                .then(validateTokens)
+                .then(setCredentials)
+                .then(auth => Promise.resolve({
+                        auth: auth,
+                        part: 'snippet',
+                        resource: {
+                            snippet: body.snippet
+                        }
+                    })
+                )
+                .then(youtube.playlists.insertAsync)
+                .then(reply)
+                .catch(e => replyErr(e, reply));
         }
     }
 };
