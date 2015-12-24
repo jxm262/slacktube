@@ -9,7 +9,7 @@ var Component = React.createClass({
             : null;
 
         return (
-            <Layout title="Registration">
+            <Layout title="Registration" {...this.props} >
                 <h1>Registration Page</h1>
 
                 {errors}

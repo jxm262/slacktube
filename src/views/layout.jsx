@@ -1,8 +1,18 @@
-var React = require('react');
+const React = require('react');
 
-
-var Component = React.createClass({
+const Component = React.createClass({
     render: function () {
+        const profile = (this.props.user && this.props.user.isAuthenticated)
+            ? <a href="/profile">Profile</a>
+            : <a href="/login">Login</a>;
+
+        const logout = (this.props.user && this.props.user.isAuthenticated)
+            ? <a href="/logout">Logout</a>
+            : null;
+
+        const playlists = (this.props.user && this.props.user.credentials && this.props.user.credentials.youtube)
+            ? <a href="/playlists">Playlists</a>
+            : null;
 
         return (
             <html>
@@ -11,7 +21,7 @@ var Component = React.createClass({
                 </head>
                 <body>
                     <p>
-                        <a href="/">Home</a> | <a href="/about">About Us</a> | <a href="/login">Login</a> | <a href="/playlists">Playlists</a> |
+                        <a href="/">Home</a> | <a href="/about">About Us</a> | {profile} | {logout} | {playlists} |
                     </p>
                     <hr />
                     {this.props.children}

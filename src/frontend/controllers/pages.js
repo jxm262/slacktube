@@ -16,11 +16,13 @@ module.exports = {
             strategy: 'session'
         },
         handler: function (request, reply) {
-            const user = (request.auth.isAuthenticated)
-                ? {user: request.auth.credentials}
-                : null;
 
-            return reply.view('home', user);
+            //TODO make some middleware to parse the user from the request, doing it in React component for now
+            //const user = (request.auth.isAuthenticated)
+            //    ? {user: {email: request.auth.credentials.email, youtube: request.auth.credentials.youtube}}
+            //    : null;
+
+            return reply.view('home', {user: request.auth});
         }
     },
 
