@@ -85,14 +85,19 @@ module.exports = {
      * GET /youtube redirects to oauth2 url (enable google account page)
      */
     youtube: {
-        auth: 'session',
+        auth: {
+            mode: 'try',
+            strategy: 'session'
+        },
         handler: (request, reply) => {
-            const url = oauth2Client.generateAuthUrl({
-                access_type: 'offline', // will return a refresh token
-                scope: 'https://www.googleapis.com/auth/youtube'
-            });
+            const redirectUrl = (!request.auth || !request.auth.isAuthenticated )
+                ? '/login'
+                : oauth2Client.generateAuthUrl({
+                    access_type: 'offline', // will return a refresh token
+                    scope: 'https://www.googleapis.com/auth/youtube'
+                  });
 
-            return reply.redirect(url);
+            return reply.redirect(redirectUrl);
         }
     },
 

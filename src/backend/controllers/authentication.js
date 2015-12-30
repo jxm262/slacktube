@@ -37,7 +37,10 @@ module.exports = {
                     creationDate: user.creationDate
                 };
 
-                return reply({status: 'SUCCESS', user: userData});
+                return reply({
+                    status: 'SUCCESS',
+                    message: 'To access youtube, please enable access under gifukt.com/youtube',
+                    user: userData});
             });
         }
     },
@@ -80,15 +83,14 @@ module.exports = {
                     reply('Authentiction failed. Please check credentials and retry');
                 }
             });
-        },
-
-        //TODO this is just an api to help test the auth is working, can be removed
-        status: {
-            auth: 'jwt',
-            handler: function (request, reply) {
-                reply({text: 'You used a Token!'})
-                    .header("Authorization", request.headers.authorization);
-            }
+        }
+    },
+    //TODO this is just an api to help test the auth is working, can be removed
+    status: {
+        auth: 'jwt',
+        handler: function (request, reply) {
+            reply({text: 'You used a Token!'})
+                .header("Authorization", request.headers.authorization);
         }
     }
 };
