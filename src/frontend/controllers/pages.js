@@ -198,6 +198,7 @@ module.exports = {
     },
 
 
+    //TODO move to slack controller
     /**
      * POST /slack/youtube/add/{playlistId} parses input and adds youtube video by keywords `add <youtube_link>`
      * @param {string} request.payload.text text prop from Slack outgoing webhook POST, in form of `add <youtube_link>`

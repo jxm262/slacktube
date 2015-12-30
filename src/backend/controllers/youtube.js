@@ -57,6 +57,8 @@ module.exports = {
      * GET
      * /api/youtube/playlist/{playlistId}
      * shows youtube playlist by id
+     *
+     * @param {string} request.params.id
      */
     playlistById: {
         auth: 'jwt',
